@@ -14,7 +14,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git(url: 'https://github.com/Milahn-Henri-Louis-Irwin-ITBSA/flights-service', branch: 'main')
+                git(url: 'https://github.com/Milahn-Henri-Louis-Irwin-ITBSA/auditing-service', branch: 'main')
             }
         }
 
@@ -33,13 +33,13 @@ pipeline {
         stage('Deploy') {
             steps {
                 // Create the directory '/root/microservices/firebase-admin-service' if it doesn't exist
-                sh 'mkdir -p /root/microservices/flights-service'
+                sh 'mkdir -p /root/microservices/auditing-service'
 
                 // Move the 'dist' directory to '/root/microservices/firebase-admin-service'
-                sh 'mv dist /root/microservices/flights-service'
+                sh 'mv dist /root/microservices/auditing-service'
 
                 // Move the 'node_modules' directory to '/root/microservices/firebase-admin-service'
-                sh 'mv node_modules /root/microservices/flights-service'
+                sh 'mv node_modules /root/microservices/auditing-service'
             }
         }
     }
