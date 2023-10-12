@@ -1,10 +1,11 @@
 import admin from 'firebase-admin';
-import firebaseConfig from '../../../itbsa-honours-backend-firebase-adminsdk-taci1-f6ac4b2b90.json';
+import firebaseConfig from '../../../itbsa-honours-backend-firebase-adminsdk-taci1-385e257bed.json';
 import type {
   CollectionReference,
   Firestore,
   WriteResult,
 } from 'firebase-admin/firestore';
+import type { DecodedIdToken } from 'firebase-admin/auth';
 import type { App } from 'firebase-admin/app';
 import type { ServiceAccount } from 'firebase-admin';
 import ILoggingDB from '../../interfaces/ILoggingDB';
@@ -12,7 +13,7 @@ import type { LoggingData } from '../../types/types';
 class LoggingDB implements ILoggingDB {
   private db: Firestore;
 
-  private constructor() {
+  constructor() {
     this.initializeFirebase();
     this.db = admin.firestore();
   }
@@ -62,6 +63,14 @@ class LoggingDB implements ILoggingDB {
     try {
       const collectionRef: CollectionReference = this.db.collection('logs');
       return !!(await collectionRef.doc(id).delete());
+    } catch (e: any) {
+      throw new Error(e);
+    }
+  }
+
+  public async verifyJWT(token: string): Promise<DecodedIdToken> {
+    try {
+      return await admin.auth().verifyIdToken(token);
     } catch (e: any) {
       throw new Error(e);
     }
