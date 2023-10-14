@@ -1,32 +1,28 @@
 import admin from 'firebase-admin';
-import firebaseConfig from '../../../itbsa-honours-backend-firebase-adminsdk-taci1-385e257bed.json';
 import type {
   CollectionReference,
   Firestore,
   WriteResult,
 } from 'firebase-admin/firestore';
 import type { DecodedIdToken } from 'firebase-admin/auth';
-import type { App } from 'firebase-admin/app';
-import type { ServiceAccount } from 'firebase-admin';
 import ILoggingDB from '../../interfaces/ILoggingDB';
 import type { LoggingData } from '../../types/types';
 class LoggingDB implements ILoggingDB {
   private db: Firestore;
 
   constructor() {
-    this.initializeFirebase();
     this.db = admin.firestore();
   }
 
-  private initializeFirebase(): App {
-    try {
-      return admin.initializeApp({
-        credential: admin.credential.cert(firebaseConfig as ServiceAccount),
-      });
-    } catch (e: any) {
-      throw new Error(e);
-    }
-  }
+  // private initializeFirebase(): App {
+  //   try {
+  //     return admin.initializeApp({
+  //       credential: admin.credential.cert(firebaseConfig as ServiceAccount),
+  //     });
+  //   } catch (e: any) {
+  //     throw new Error(e);
+  //   }
+  // }
 
   public async set(data: LoggingData): Promise<WriteResult> {
     try {

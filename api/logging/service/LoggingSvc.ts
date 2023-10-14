@@ -10,8 +10,12 @@ export default class LoggingSvc {
     this.db = new DatabaseConnector();
   }
 
-  public async verifyToken(token: string): Promise<DecodedIdToken> {
-    return await this.db.verifyJWT(token);
+  public async verifyToken(token: string): Promise<DecodedIdToken | Error> {
+    try {
+      return await this.db.verifyJWT(token);
+    } catch (e) {
+      return new Error(e as string);
+    }
   }
 
   public async submitLog(log: any): Promise<any> {

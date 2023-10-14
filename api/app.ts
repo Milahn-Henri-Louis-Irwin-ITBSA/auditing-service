@@ -5,6 +5,8 @@ import * as bodyParser from 'body-parser';
 import Container from 'typedi';
 import { ENV_CONFIG } from '../app/config';
 import { Logger } from '../libs/logger';
+import admin from 'firebase-admin';
+import { config } from 'dotenv';
 import {
   useExpressServer,
   useContainer as routingContainer,
@@ -22,6 +24,14 @@ useExpressServer(expressApp, {
   routePrefix: ENV_CONFIG.app.apiRoot,
   defaultErrorHandler: false,
   controllers: [baseDir + `/**/controllers/*{.js,.ts}`],
+});
+
+// initialize firebase
+
+config();
+
+admin.initializeApp({
+  credential: admin.credential.cert(process.env.GOOGLE_APPLICATION_CREDENTIALS),
 });
 
 expressApp.use(bodyParser.urlencoded({ extended: false }));
