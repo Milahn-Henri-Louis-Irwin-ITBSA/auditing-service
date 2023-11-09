@@ -36,6 +36,12 @@ admin.initializeApp({
 
 expressApp.use(bodyParser.urlencoded({ extended: false }));
 expressApp.use(bodyParser.json());
+expressApp.get('/', (req, res) => {
+  res.status(200).json({
+    service: 'Auditing Service',
+    status: 'Running',
+  });
+});
 
 const server = http.createServer(expressApp);
 server.listen(ENV_CONFIG.app.port, () => {
