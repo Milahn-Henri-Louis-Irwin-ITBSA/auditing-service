@@ -7,6 +7,7 @@ import { ENV_CONFIG } from '../app/config';
 import { Logger } from '../libs/logger';
 import admin from 'firebase-admin';
 import { config } from 'dotenv';
+import ListenDB from '../libs/ListenDB';
 import {
   useExpressServer,
   useContainer as routingContainer,
@@ -42,6 +43,9 @@ expressApp.get('/', (req, res) => {
     status: 'Running',
   });
 });
+
+const listenDB = new ListenDB();
+listenDB.startListen();
 
 const server = http.createServer(expressApp);
 server.listen(ENV_CONFIG.app.port, () => {
